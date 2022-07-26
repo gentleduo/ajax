@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>POST 请求</title>
+	</head>
+	<body>
+		<form action="https://www.imooc.com/api/http/search/suggest?words=js" method="post">
+			<input type="text" name="username" />
+			<input type="password" name="password" />
+			<input type="submit" value="提交" />
+		</form>
+
+		<script>
+			// 1.携带数据
+			// POST 请求主要通过请求体携带数据，同时也可以通过请求头携带
+			const url = 'http://localhost:8080/post/hello?type=postjson';
+			const xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = () => {
+				if (xhr.readyState != 4) return;
+
+				if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+					console.log(xhr.responseText);
+				}
+			};
+
+			xhr.open('POST', url, true);
+			// Content-Type为application/x-www-form-urlencoded的时候，发送数据的格式类似get请求参数
+			// 浏览器会把数据封装到HTTP BODY中(form表单的格式)，然后发送到服务器。所以并不会显示在URL上。
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send('username=张三&age=18&sex=male');
+
+			// xhr.setRequestHeader("Content-Type", "application/json");
+			// const user = {
+			// 	username: "张三",
+			// 	age: 38,
+			// 	sex: "male"
+			// };
+			// xhr.send(JSON.stringify(user));
+
+			// 不能直接传递对象，需要先将对象转换成字符串的形式
+			// xhr.send({
+			//   username: 'alex',
+			//   age: 18
+			// });
+			// [object Object]
+
+			// 2.数据编码
+			// xhr.send(`username=${encodeURIComponent('张三')}&age=18`);
+		</script>
+	</body>
+</html>
